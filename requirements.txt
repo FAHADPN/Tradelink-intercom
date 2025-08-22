@@ -4,3 +4,4 @@ numpy==1.24.3
 pywin32==306
 keyboard==0.13.5
 psutil==5.9.5
+pyinstaller==6.3.0

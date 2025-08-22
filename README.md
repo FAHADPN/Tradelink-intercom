@@ -13,6 +13,7 @@ A high-quality, push-to-talk intercom system for shop-to-shop communication over
 
 ## Quick Start
 
+### Option 1: Python Version (Development)
 1. **Install Python 3.8+** if not already installed
 2. **Install Dependencies**:
    ```bash
@@ -22,6 +23,19 @@ A high-quality, push-to-talk intercom system for shop-to-shop communication over
    ```bash
    python main.py
    ```
+
+### Option 2: Executable Version (Production - Recommended)
+1. **Build the Executable**:
+   ```bash
+   # Double-click build.bat or run:
+   python build_exe.py
+   ```
+2. **Deploy to Shops**:
+   - Copy `dist/TradelinkIntercom.exe` to each computer
+   - Or use `install_exe.bat` for system installation
+   - Or copy `TradelinkIntercom_Portable/` folder
+
+**Note:** The executable version doesn't require Python installation on shop computers!
 
 ## Configuration
 
@@ -45,3 +59,23 @@ A high-quality, push-to-talk intercom system for shop-to-shop communication over
 ## Development
 
 This is an MVP version designed for fast deployment and easy expansion.
+
+## 🚀 Executable Deployment
+
+For production deployment to shops, build a single executable file:
+
+```bash
+# Quick build
+double-click build.bat
+
+# Manual build
+python build_exe.py
+```
+
+This creates:
+- **Single .exe file** - Easy deployment to any Windows computer
+- **No Python required** - Runs independently on shop computers
+- **Professional installation** - Can install to Program Files
+- **Portable version** - Run from USB drives or any folder
+
+See `EXECUTABLE_DEPLOYMENT.md` for complete deployment instructions.
