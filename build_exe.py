@@ -43,46 +43,145 @@ def build_executable():
     """Build the executable using PyInstaller."""
     print("\n🚀 Building Tradelink Intercom System executable...")
     
-    # PyInstaller command with optimized settings
-    cmd = [
-        "pyinstaller",
-        "--onefile",                    # Single executable file
-        "--windowed",                   # No console window (GUI only)
-        "--name=TradelinkIntercom",     # Executable name
-        "--icon=icon.ico",              # Icon file (if exists)
-        "--add-data=config.py;.",       # Include config file
-        "--hidden-import=PyQt6.QtCore",
-        "--hidden-import=PyQt6.QtGui", 
-        "--hidden-import=PyQt6.QtWidgets",
-        "--hidden-import=pyaudio",
-        "--hidden-import=numpy",
-        "--hidden-import=win32api",
-        "--hidden-import=win32con",
-        "--hidden-import=win32gui",
-        "--hidden-import=keyboard",
-        "--hidden-import=psutil",
-        "--collect-all=PyQt6",
-        "--collect-all=pyaudio",
-        "--collect-all=numpy",
-        "--collect-all=win32",
-        "--collect-all=keyboard",
-        "--collect-all=psutil",
-        "main.py"
-    ]
-    
-    # Remove icon if it doesn't exist
-    if not os.path.exists("icon.ico"):
-        cmd.remove("--icon=icon.ico")
-    
+    # Try method 1: Direct import (recommended)
     try:
+        print("Method 1: Using PyInstaller direct import...")
+        from PyInstaller.__main__ import run
+        
+        # PyInstaller arguments
+        args = [
+            "--onefile",                    # Single executable file
+            "--windowed",                   # No console window (GUI only)
+            "--name=TradelinkIntercom",     # Executable name
+            "--add-data=config.py;.",       # Include config file
+            "--hidden-import=PyQt6.QtCore",
+            "--hidden-import=PyQt6.QtGui", 
+            "--hidden-import=PyQt6.QtWidgets",
+            "--hidden-import=pyaudio",
+            "--hidden-import=numpy",
+            "--hidden-import=win32api",
+            "--hidden-import=win32con",
+            "--hidden-import=win32gui",
+            "--hidden-import=keyboard",
+            "--hidden-import=psutil",
+            "--collect-all=PyQt6",
+            "--collect-all=pyaudio",
+            "--collect-all=numpy",
+            "--collect-all=win32",
+            "--collect-all=keyboard",
+            "--collect-all=psutil",
+            "main.py"
+        ]
+        
+        # Add icon if it exists
+        if os.path.exists("icon.ico"):
+            args.insert(1, "--icon=icon.ico")
+        
         print("Running PyInstaller...")
-        print(" ".join(cmd))
-        subprocess.check_call(cmd)
+        print(" ".join(args))
+        
+        # Run PyInstaller directly
+        run(args)
+        
         print("✓ Build completed successfully!")
         return True
-    except subprocess.CalledProcessError as e:
-        print(f"✗ Build failed with error: {e}")
-        return False
+        
+    except ImportError as e:
+        print(f"Method 1 failed: {e}")
+        print("Trying method 2: Python module execution...")
+        
+        # Try method 2: Python module execution
+        try:
+            import PyInstaller
+            
+            # Define args for method 2
+            args2 = [
+                "--onefile",                    # Single executable file
+                "--windowed",                   # No console window (GUI only)
+                "--name=TradelinkIntercom",     # Executable name
+                "--add-data=config.py;.",       # Include config file
+                "--hidden-import=PyQt6.QtCore",
+                "--hidden-import=PyQt6.QtGui", 
+                "--hidden-import=PyQt6.QtWidgets",
+                "--hidden-import=pyaudio",
+                "--hidden-import=numpy",
+                "--hidden-import=win32api",
+                "--hidden-import=win32con",
+                "--hidden-import=win32gui",
+                "--hidden-import=keyboard",
+                "--hidden-import=psutil",
+                "--collect-all=PyQt6",
+                "--collect-all=pyaudio",
+                "--collect-all=numpy",
+                "--collect-all=win32",
+                "--collect-all=keyboard",
+                "--collect-all=psutil",
+                "main.py"
+            ]
+            
+            # Add icon if it exists
+            if os.path.exists("icon.ico"):
+                args2.insert(1, "--icon=icon.ico")
+            
+            cmd = [sys.executable, "-m", "PyInstaller"] + args2
+            
+            print("Running PyInstaller via Python module...")
+            print(" ".join(cmd))
+            
+            subprocess.check_call(cmd)
+            print("✓ Build completed successfully!")
+            return True
+            
+        except Exception as e2:
+            print(f"Method 2 failed: {e2}")
+            print("Trying method 3: Command line fallback...")
+            
+            # Try method 3: Command line fallback
+            try:
+                # Define args for method 3
+                args3 = [
+                    "--onefile",                    # Single executable file
+                    "--windowed",                   # No console window (GUI only)
+                    "--name=TradelinkIntercom",     # Executable name
+                    "--add-data=config.py;.",       # Include config file
+                    "--hidden-import=PyQt6.QtCore",
+                    "--hidden-import=PyQt6.QtGui", 
+                    "--hidden-import=PyQt6.QtWidgets",
+                    "--hidden-import=pyaudio",
+                    "--hidden-import=numpy",
+                    "--hidden-import=win32api",
+                    "--hidden-import=win32con",
+                    "--hidden-import=win32gui",
+                    "--hidden-import=keyboard",
+                    "--hidden-import=psutil",
+                    "--collect-all=PyQt6",
+                    "--collect-all=pyaudio",
+                    "--collect-all=numpy",
+                    "--collect-all=win32",
+                    "--collect-all=keyboard",
+                    "--collect-all=psutil",
+                    "main.py"
+                ]
+                
+                # Add icon if it exists
+                if os.path.exists("icon.ico"):
+                    args3.insert(1, "--icon=icon.ico")
+                
+                cmd = ["pyinstaller"] + args3
+                
+                print("Running PyInstaller via command line...")
+                print(" ".join(cmd))
+                
+                subprocess.check_call(cmd)
+                print("✓ Build completed successfully!")
+                return True
+                
+            except Exception as e3:
+                print(f"All methods failed:")
+                print(f"  Method 1 (direct import): {e}")
+                print(f"  Method 2 (Python module): {e2}")
+                print(f"  Method 3 (command line): {e3}")
+                return False
 
 def create_installer_bat():
     """Create a simple installer batch file for the executable."""
